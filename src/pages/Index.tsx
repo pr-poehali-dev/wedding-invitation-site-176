@@ -172,11 +172,11 @@ export default function Index() {
 
                 <div className="mt-6 border-2 border-ink/30 p-6 bg-ink/[0.03] text-center">
                   <p className="font-stamp text-3xl md:text-4xl tracking-[0.1em] text-ink mb-2">
-                    Александр Смирнов
+                    Боваев Вадим Николаевич
                   </p>
                   <p className="font-doc text-ink/50 text-sm tracking-widest mb-2">и</p>
                   <p className="font-stamp text-3xl md:text-4xl tracking-[0.1em] text-ink">
-                    Екатерина Новикова
+                    Ванке Елизавета Геннадьевна
                   </p>
                 </div>
 
@@ -335,8 +335,8 @@ export default function Index() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   {[
-                    { role: "Со стороны истца", name: "Мария Иванова", title: "Организатор торжества", phone: "+7 (999) 123-45-67", email: "maria@wedding.ru" },
-                    { role: "Со стороны ответчика", name: "Дмитрий Петров", title: "Координатор мероприятия", phone: "+7 (999) 765-43-21", email: "dmitry@wedding.ru" },
+                    { role: "Со стороны истца", name: "Боваев Вадим Николаевич", title: "Жених", phone: "+7 (999) 123-45-67", email: "vadim@wedding.ru" },
+                    { role: "Со стороны ответчика", name: "Ванке Елизавета Геннадьевна", title: "Невеста", phone: "+7 (999) 765-43-21", email: "elizaveta@wedding.ru" },
                   ].map(({ role, name, title, phone, email }, i) => (
                     <div key={i} className="border border-ink/20 p-5">
                       <p className="font-doc text-[10px] tracking-[0.3em] uppercase text-ink/40 mb-3">{role}</p>
@@ -384,7 +384,7 @@ export default function Index() {
                 <div className="flex items-end justify-between mt-10">
                   <div>
                     <p className="font-doc text-xs text-ink/40 mb-1">Исполнитель:</p>
-                    <p className="font-stamp text-sm text-ink/60">Александр & Екатерина</p>
+                    <p className="font-stamp text-sm text-ink/60">Боваев Вадим & Ванке Елизавета</p>
                     <p className="font-doc text-[10px] text-ink/30 mt-1">«14» сентября 2026 г.</p>
                   </div>
                   <div className="text-center opacity-40 select-none">
