@@ -7,6 +7,7 @@ export default {
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
+			"./1778099209797599701.html"
 	],
 	prefix: "",
 	theme: {
@@ -18,7 +19,16 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				display: ['"Cormorant Garamond"', 'serif'],
+				body: ['Montserrat', 'sans-serif'],
+				nav: ['Montserrat', 'sans-serif'],
+			},
 			colors: {
+				gold: '#C9A84C',
+				ivory: '#FAF6EE',
+				parchment: '#F3EAD8',
+				charcoal: '#2C2C2C',
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
