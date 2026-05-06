@@ -1,63 +1,85 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
-const WEDDING_IMAGE = "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/files/27717a16-50d3-444a-90e0-0dbd3813c59f.jpg";
+const BG_TEXTURE = "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/files/eecdf07c-d426-4865-b77a-8f2ab7281089.jpg";
 
-function useScrollReveal() {
+function useScrollReveal(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.15 }
+      { threshold }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
-
+  }, [threshold]);
   return { ref, visible };
 }
 
-function RevealSection({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const { ref, visible } = useScrollReveal();
   return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(40px)",
-        transition: `opacity 0.9s ease ${delay}ms, transform 0.9s ease ${delay}ms`,
-      }}
-    >
+    <div ref={ref} className={className} style={{
+      opacity: visible ? 1 : 0,
+      transform: visible ? "translateY(0)" : "translateY(24px)",
+      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+    }}>
       {children}
     </div>
   );
 }
 
-const Ornament = () => (
-  <div className="flex items-center justify-center gap-4 my-2">
-    <div className="h-px w-16 bg-gradient-to-r from-transparent to-gold" />
-    <span className="text-gold text-lg">✦</span>
-    <div className="h-px w-16 bg-gradient-to-l from-transparent to-gold" />
+const Stamp = ({ text, color = "red", angle = -12 }: { text: string; color?: "red" | "blue"; angle?: number }) => (
+  <div
+    className="inline-block border-4 px-4 py-1 font-stamp text-2xl tracking-widest uppercase select-none"
+    style={{
+      transform: `rotate(${angle}deg)`,
+      borderColor: color === "red" ? "#c0392b" : "#1a3a6b",
+      color: color === "red" ? "#c0392b" : "#1a3a6b",
+      opacity: 0.75,
+      textShadow: "1px 1px 0px rgba(0,0,0,0.1)",
+      fontFamily: "'Special Elite', monospace",
+      letterSpacing: "0.15em",
+    }}
+  >
+    {text}
   </div>
 );
 
-const FlowerDivider = () => (
-  <div className="flex items-center justify-center gap-3 my-1">
-    <span className="text-gold/50 text-sm">❧</span>
-    <span className="text-gold text-base">✾</span>
-    <span className="text-gold/50 text-sm">❧</span>
+const DashedLine = () => (
+  <div className="border-t-2 border-dashed border-ink/25 my-4" />
+);
+
+const SolidLine = () => (
+  <div className="border-t border-ink/40 my-2" />
+);
+
+const FieldRow = ({ label, value, underline = true }: { label: string; value: string; underline?: boolean }) => (
+  <div className="flex items-end gap-2 mb-3">
+    <span className="font-doc text-sm text-ink/70 whitespace-nowrap flex-shrink-0">{label}</span>
+    <div className={`flex-1 ${underline ? "border-b border-ink/40" : ""} pb-0.5`}>
+      <span className="font-doc text-sm text-ink font-semibold tracking-wide">{value}</span>
+    </div>
   </div>
 );
 
 export default function Index() {
-  const [heroVisible, setHeroVisible] = useState(false);
+  const [typed, setTyped] = useState("");
+  const fullText = "ПОВЕСТКА";
+  const [confirmed, setConfirmed] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setHeroVisible(true), 100);
-    return () => clearTimeout(timer);
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i <= fullText.length) {
+        setTyped(fullText.slice(0, i));
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 120);
+    return () => clearInterval(interval);
   }, []);
 
   const scrollTo = (id: string) => {
@@ -65,281 +87,334 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-ivory font-body text-charcoal overflow-x-hidden">
-      {/* Corner decorations */}
-      <div className="fixed top-0 left-0 w-24 h-24 pointer-events-none z-10">
-        <svg viewBox="0 0 96 96" fill="none" className="w-full h-full opacity-30">
-          <path d="M4 4 L4 40 Q4 4 40 4 Z" stroke="#C9A84C" strokeWidth="1" fill="none"/>
-          <path d="M4 4 L4 24 Q4 4 24 4" stroke="#C9A84C" strokeWidth="0.5" fill="none" strokeDasharray="2,3"/>
-        </svg>
-      </div>
-      <div className="fixed top-0 right-0 w-24 h-24 pointer-events-none z-10">
-        <svg viewBox="0 0 96 96" fill="none" className="w-full h-full opacity-30">
-          <path d="M92 4 L92 40 Q92 4 56 4 Z" stroke="#C9A84C" strokeWidth="1" fill="none"/>
-          <path d="M92 4 L92 24 Q92 4 72 4" stroke="#C9A84C" strokeWidth="0.5" fill="none" strokeDasharray="2,3"/>
-        </svg>
-      </div>
+    <div
+      className="min-h-screen font-doc text-ink"
+      style={{
+        backgroundImage: `url(${BG_TEXTURE})`,
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        backgroundColor: "#f2ead8",
+      }}
+    >
+      {/* Overlay */}
+      <div className="min-h-screen" style={{ background: "rgba(242, 234, 210, 0.88)" }}>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-20 flex justify-center py-4 bg-ivory/80 backdrop-blur-sm border-b border-gold/20">
-        <div className="flex gap-6 md:gap-8">
-          {[["hero", "Главная"], ["date", "Дата"], ["program", "Программа"], ["gallery", "Галерея"], ["contacts", "Контакты"]].map(([id, label]) => (
-            <button
-              key={id}
-              onClick={() => scrollTo(id)}
-              className="font-nav text-xs tracking-[0.2em] uppercase text-charcoal/60 hover:text-gold transition-colors duration-300"
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section id="hero" className="min-h-screen flex flex-col items-center justify-center relative pt-16 px-6">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,_#f5e6c8_0%,_transparent_60%)] pointer-events-none" />
-
-        <div className="text-center max-w-2xl relative z-10">
-          <div
-            style={{
-              opacity: heroVisible ? 1 : 0,
-              transform: heroVisible ? "translateY(0)" : "translateY(-20px)",
-              transition: "opacity 1.2s ease 200ms, transform 1.2s ease 200ms",
-            }}
-          >
-            <p className="font-nav text-xs tracking-[0.4em] uppercase text-gold mb-6">
-              Свадебное приглашение
-            </p>
-          </div>
-
-          <div
-            style={{
-              opacity: heroVisible ? 1 : 0,
-              transform: heroVisible ? "scale(1)" : "scale(0.95)",
-              transition: "opacity 1.4s ease 400ms, transform 1.4s ease 400ms",
-            }}
-          >
-            <h1 className="font-display text-7xl md:text-9xl text-charcoal leading-none mb-2">
-              Александр
-            </h1>
-            <div className="flex items-center justify-center gap-6 my-4">
-              <div className="h-px flex-1 max-w-[100px] bg-gradient-to-r from-transparent to-gold/60" />
-              <span className="font-display text-4xl text-gold italic">&amp;</span>
-              <div className="h-px flex-1 max-w-[100px] bg-gradient-to-l from-transparent to-gold/60" />
-            </div>
-            <h1 className="font-display text-7xl md:text-9xl text-charcoal leading-none mb-8">
-              Екатерина
-            </h1>
-          </div>
-
-          <div
-            style={{
-              opacity: heroVisible ? 1 : 0,
-              transition: "opacity 1.2s ease 900ms",
-            }}
-          >
-            <Ornament />
-            <p className="font-body text-charcoal/60 text-sm tracking-[0.15em] mt-6 uppercase">
-              Просим вас разделить с нами этот особенный день
-            </p>
-            <button
-              onClick={() => scrollTo("date")}
-              className="mt-10 inline-flex items-center gap-3 border border-gold/50 text-gold hover:bg-gold hover:text-ivory px-8 py-3 text-xs tracking-[0.3em] uppercase font-nav transition-all duration-500"
-            >
-              Подробности
-              <Icon name="ChevronDown" size={14} />
-            </button>
-          </div>
-        </div>
-
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-gold/20 text-6xl select-none pointer-events-none">
-          ❀
-        </div>
-      </section>
-
-      {/* Date & Venue Section */}
-      <section id="date" className="py-28 px-6 bg-parchment relative">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-        <div className="max-w-4xl mx-auto text-center">
-          <RevealSection>
-            <p className="font-nav text-xs tracking-[0.4em] uppercase text-gold mb-4">Дата и место</p>
-            <FlowerDivider />
-            <h2 className="font-display text-5xl md:text-6xl text-charcoal mt-6 mb-10">
-              Когда и где
-            </h2>
-          </RevealSection>
-
-          <div className="grid md:grid-cols-3 gap-8 mt-12">
-            {[
-              { icon: "Calendar", label: "Дата торжества", value: "14 сентября 2026", sub: "Воскресенье" },
-              { icon: "Clock", label: "Начало церемонии", value: "16:00", sub: "Сбор гостей с 15:30" },
-              { icon: "MapPin", label: "Место проведения", value: "Усадьба Архангельское", sub: "Московская область" },
-            ].map(({ icon, label, value, sub }, i) => (
-              <RevealSection key={i} delay={i * 150}>
-                <div className="flex flex-col items-center p-8 border border-gold/25 bg-ivory/60 relative hover:border-gold/60 transition-all duration-500">
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-parchment px-3">
-                    <Icon name={icon} size={18} className="text-gold" fallback="Calendar" />
-                  </div>
-                  <p className="font-nav text-[10px] tracking-[0.3em] uppercase text-gold/70 mt-3 mb-3">{label}</p>
-                  <p className="font-display text-2xl text-charcoal mb-1">{value}</p>
-                  <p className="font-body text-xs text-charcoal/50 tracking-wider">{sub}</p>
-                </div>
-              </RevealSection>
-            ))}
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-      </section>
-
-      {/* Program Section */}
-      <section id="program" className="py-28 px-6 bg-ivory relative">
-        <div className="max-w-3xl mx-auto text-center">
-          <RevealSection>
-            <p className="font-nav text-xs tracking-[0.4em] uppercase text-gold mb-4">Программа</p>
-            <FlowerDivider />
-            <h2 className="font-display text-5xl md:text-6xl text-charcoal mt-6 mb-16">
-              День торжества
-            </h2>
-          </RevealSection>
-
-          <div className="relative">
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/40 to-transparent hidden md:block" />
-
-            {[
-              { time: "15:30", title: "Сбор гостей", desc: "Встреча и приветствие гостей, фуршет" },
-              { time: "16:00", title: "Выездная церемония", desc: "Торжественная регистрация брака в окружении природы" },
-              { time: "17:00", title: "Фотосессия", desc: "Прогулка по усадьбе, памятные снимки" },
-              { time: "18:00", title: "Банкет", desc: "Праздничный ужин, тосты и поздравления" },
-              { time: "22:00", title: "Танцы до утра", desc: "Живая музыка и зажигательные танцы" },
-            ].map(({ time, title, desc }, i) => (
-              <RevealSection key={i} delay={i * 100} className={`flex items-start gap-8 mb-10 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
-                <div className={`flex-1 ${i % 2 === 0 ? "md:text-right" : "md:text-left"} text-left`}>
-                  <p className="font-display text-3xl text-gold mb-1">{time}</p>
-                  <p className="font-nav text-sm tracking-[0.1em] uppercase text-charcoal mb-2">{title}</p>
-                  <p className="font-body text-charcoal/55 text-sm leading-relaxed">{desc}</p>
-                </div>
-                <div className="relative flex-shrink-0 hidden md:flex items-center justify-center w-10">
-                  <div className="w-3 h-3 rounded-full bg-gold border-2 border-ivory ring-1 ring-gold/50 z-10" />
-                </div>
-                <div className="flex-1 hidden md:block" />
-              </RevealSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <section id="gallery" className="py-28 px-6 bg-parchment relative">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-        <div className="max-w-5xl mx-auto text-center">
-          <RevealSection>
-            <p className="font-nav text-xs tracking-[0.4em] uppercase text-gold mb-4">Галерея</p>
-            <FlowerDivider />
-            <h2 className="font-display text-5xl md:text-6xl text-charcoal mt-6 mb-16">
-              Наш день
-            </h2>
-          </RevealSection>
-
-          <RevealSection delay={200}>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <div className="col-span-2 row-span-2 relative overflow-hidden group" style={{ height: "420px" }}>
-                <img
-                  src={WEDDING_IMAGE}
-                  alt="Wedding"
-                  className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
-              {[
-                "Место венчания",
-                "Цветочное убранство",
-                "Детали торжества",
-                "Момент счастья",
-              ].map((label, i) => (
-                <div key={i} className="relative overflow-hidden group" style={{ height: "200px" }}>
-                  <div
-                    className="w-full h-full flex items-center justify-center"
-                    style={{ background: "linear-gradient(135deg, #f0e6d0 0%, #e8d5b0 100%)" }}
-                  >
-                    <div className="text-center">
-                      <div className="text-gold/40 text-3xl mb-2">❀</div>
-                      <p className="font-nav text-[10px] tracking-[0.25em] uppercase text-charcoal/40">{label}</p>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 border border-gold/20 group-hover:border-gold/50 transition-colors duration-300" />
-                </div>
+        {/* NAV — номер дела */}
+        <header className="sticky top-0 z-30 border-b-2 border-ink/30 bg-paper/90 backdrop-blur-sm">
+          <div className="max-w-3xl mx-auto px-6 py-2 flex items-center justify-between">
+            <span className="font-stamp text-xs text-ink/50 tracking-widest uppercase">Дело № 14-09/2026</span>
+            <div className="flex gap-6">
+              {[["notice","Повестка"],["hearing","Заседание"],["schedule","Регламент"],["evidence","Материалы"],["contacts","Явка"]].map(([id, label]) => (
+                <button key={id} onClick={() => scrollTo(id)}
+                  className="font-doc text-xs text-ink/50 hover:text-ink transition-colors tracking-wider uppercase hidden md:block">
+                  {label}
+                </button>
               ))}
             </div>
-          </RevealSection>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-      </section>
+          </div>
+        </header>
 
-      {/* Contacts Section */}
-      <section id="contacts" className="py-28 px-6 bg-ivory">
-        <div className="max-w-3xl mx-auto text-center">
-          <RevealSection>
-            <p className="font-nav text-xs tracking-[0.4em] uppercase text-gold mb-4">Контакты</p>
-            <FlowerDivider />
-            <h2 className="font-display text-5xl md:text-6xl text-charcoal mt-6 mb-6">
-              Есть вопросы?
-            </h2>
-            <p className="font-body text-charcoal/55 text-sm leading-relaxed max-w-lg mx-auto mb-16">
-              Для любых вопросов об организации торжества обращайтесь к нашим координаторам
-            </p>
-          </RevealSection>
+        <div className="max-w-3xl mx-auto px-4 md:px-6 py-12 space-y-0">
 
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
-            {[
-              { role: "Организатор торжества", name: "Мария Иванова", phone: "+7 (999) 123-45-67", email: "maria@wedding.ru", icon: "Crown" },
-              { role: "Координатор мероприятия", name: "Дмитрий Петров", phone: "+7 (999) 765-43-21", email: "dmitry@wedding.ru", icon: "Star" },
-            ].map(({ role, name, phone, email, icon }, i) => (
-              <RevealSection key={i} delay={i * 200}>
-                <div className="border border-gold/25 p-8 bg-parchment/50 hover:border-gold/60 transition-all duration-500 text-center">
-                  <div className="w-12 h-12 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center mx-auto mb-4">
-                    <Icon name={icon} size={18} className="text-gold" fallback="Star" />
-                  </div>
-                  <p className="font-nav text-[10px] tracking-[0.3em] uppercase text-gold/70 mb-3">{role}</p>
-                  <p className="font-display text-2xl text-charcoal mb-4">{name}</p>
-                  <div className="space-y-2">
-                    <a href={`tel:${phone}`} className="flex items-center justify-center gap-2 text-charcoal/60 hover:text-gold transition-colors duration-300 text-sm">
-                      <Icon name="Phone" size={13} />
-                      <span className="font-body tracking-wide">{phone}</span>
-                    </a>
-                    <a href={`mailto:${email}`} className="flex items-center justify-center gap-2 text-charcoal/60 hover:text-gold transition-colors duration-300 text-sm">
-                      <Icon name="Mail" size={13} />
-                      <span className="font-body tracking-wide">{email}</span>
-                    </a>
+          {/* SECTION 1 — Официальная шапка */}
+          <section id="notice">
+            <Reveal>
+              <div className="bg-paper border-2 border-ink/20 p-8 md:p-12 shadow-[4px_4px_0_rgba(0,0,0,0.08)] relative">
+
+                {/* Штамп угловой */}
+                <div className="absolute top-6 right-6 opacity-60">
+                  <Stamp text="СРОЧНО" color="red" angle={8} />
+                </div>
+
+                {/* Герб / лого */}
+                <div className="text-center mb-6">
+                  <div className="inline-flex flex-col items-center gap-1">
+                    <div className="text-5xl select-none">⚖️</div>
+                    <p className="font-stamp text-[10px] tracking-[0.4em] uppercase text-ink/50 mt-1">
+                      Российская Федерация
+                    </p>
+                    <p className="font-stamp text-[10px] tracking-[0.35em] uppercase text-ink/50">
+                      Отдел ЗАГС Центрального района
+                    </p>
                   </div>
                 </div>
-              </RevealSection>
-            ))}
-          </div>
 
-          <RevealSection delay={400}>
-            <Ornament />
-            <p className="font-display text-3xl text-charcoal mt-8 mb-3">
-              Будем рады видеть вас
-            </p>
-            <p className="font-body text-gold text-sm tracking-[0.2em]">
-              Александр &amp; Екатерина
-            </p>
-          </RevealSection>
-        </div>
-      </section>
+                <SolidLine />
+                <SolidLine />
 
-      {/* Footer */}
-      <footer className="py-10 px-6 bg-charcoal text-center">
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <div className="h-px w-12 bg-gold/30" />
-          <span className="text-gold/60 text-sm">✦</span>
-          <div className="h-px w-12 bg-gold/30" />
+                <div className="text-center my-8">
+                  <h1 className="font-stamp text-6xl md:text-8xl tracking-[0.3em] text-ink">
+                    {typed}<span className="animate-pulse">_</span>
+                  </h1>
+                  <p className="font-doc text-sm text-ink/60 mt-3 tracking-widest uppercase">
+                    о вызове на слушание по делу о заключении брака
+                  </p>
+                </div>
+
+                <SolidLine />
+                <SolidLine />
+
+                <div className="mt-8 space-y-0">
+                  <FieldRow label="Исх. №" value="14-09/2026-БРК" />
+                  <FieldRow label="Дата выдачи:" value="01 мая 2026 г." />
+                  <FieldRow label="Кому:" value="Уважаемый(-ая) гость" />
+                  <FieldRow label="Адрес вручения:" value="по месту нахождения" />
+                </div>
+
+                <DashedLine />
+
+                <p className="font-doc text-sm text-ink leading-7 mt-4">
+                  Настоящим уведомляем Вас о том, что{" "}
+                  <strong className="underline decoration-dotted underline-offset-4">«14» сентября 2026 года</strong>{" "}
+                  в Отделе записи актов гражданского состояния состоится открытое заседание по делу{" "}
+                  <strong>№ 14-09/2026-БРК</strong> по вопросу официального оформления союза граждан:
+                </p>
+
+                <div className="mt-6 border-2 border-ink/30 p-6 bg-ink/[0.03] text-center">
+                  <p className="font-stamp text-3xl md:text-4xl tracking-[0.1em] text-ink mb-2">
+                    Александр Смирнов
+                  </p>
+                  <p className="font-doc text-ink/50 text-sm tracking-widest mb-2">и</p>
+                  <p className="font-stamp text-3xl md:text-4xl tracking-[0.1em] text-ink">
+                    Екатерина Новикова
+                  </p>
+                </div>
+
+                <p className="font-doc text-sm text-ink/70 leading-7 mt-6">
+                  Ваше <strong>присутствие обязательно</strong>. Неявка без уважительной причины
+                  расценивается как неуважение к торжеству и влечёт лишение права на{" "}
+                  <span className="underline decoration-dotted underline-offset-2">бесплатный банкет</span>.
+                </p>
+
+                <div className="flex justify-end mt-8">
+                  <div className="text-right">
+                    <p className="font-doc text-xs text-ink/40 mb-6">Подпись уполномоченного лица:</p>
+                    <div className="border-b border-ink/30 w-48 mb-1" />
+                    <p className="font-doc text-xs text-ink/40">М.П.</p>
+                  </div>
+                </div>
+
+              </div>
+            </Reveal>
+          </section>
+
+          {/* SECTION 2 — Дата и место */}
+          <section id="hearing" className="mt-6">
+            <Reveal delay={100}>
+              <div className="bg-paper border-2 border-ink/20 p-8 md:p-10 shadow-[4px_4px_0_rgba(0,0,0,0.08)] relative">
+                <div className="absolute top-5 left-5 opacity-50">
+                  <Stamp text="ПОДТВЕРЖДЕНО" color="blue" angle={-4} />
+                </div>
+
+                <h2 className="font-stamp text-2xl tracking-[0.2em] text-ink mb-2 mt-8">
+                  СВЕДЕНИЯ О ЗАСЕДАНИИ
+                </h2>
+                <SolidLine />
+
+                <div className="mt-6 space-y-0">
+                  <FieldRow label="Дата проведения:" value="14 сентября 2026 года (воскресенье)" />
+                  <FieldRow label="Время начала:" value="16:00 (явка с 15:30)" />
+                  <FieldRow label="Адрес:" value="Усадьба Архангельское, Московская обл." />
+                  <FieldRow label="Председатель:" value="Александр Смирнов, гражданин" />
+                  <FieldRow label="Ответчик:" value="Екатерина Новикова, гражданка" />
+                  <FieldRow label="Характер дела:" value="Добровольное и по обоюдному согласию" />
+                </div>
+
+                <DashedLine />
+
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  {[
+                    { num: "01", text: "Прибыть по указанному адресу" },
+                    { num: "02", text: "Иметь при себе праздничное настроение" },
+                    { num: "03", text: "Подготовить поздравительную речь" },
+                  ].map(({ num, text }) => (
+                    <div key={num} className="border border-ink/20 p-4 text-center">
+                      <p className="font-stamp text-3xl text-ink/20 mb-2">{num}</p>
+                      <p className="font-doc text-xs text-ink/70 leading-5">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </section>
+
+          {/* SECTION 3 — Регламент / Программа */}
+          <section id="schedule" className="mt-6">
+            <Reveal delay={100}>
+              <div className="bg-paper border-2 border-ink/20 p-8 md:p-10 shadow-[4px_4px_0_rgba(0,0,0,0.08)]">
+                <h2 className="font-stamp text-2xl tracking-[0.2em] text-ink mb-2">
+                  РЕГЛАМЕНТ ЗАСЕДАНИЯ
+                </h2>
+                <SolidLine />
+
+                <table className="w-full mt-6 border-collapse">
+                  <thead>
+                    <tr className="border-b-2 border-ink/30">
+                      <th className="font-doc text-xs text-ink/50 tracking-widest uppercase text-left py-2 w-24">Время</th>
+                      <th className="font-doc text-xs text-ink/50 tracking-widest uppercase text-left py-2">Пункт повестки</th>
+                      <th className="font-doc text-xs text-ink/50 tracking-widest uppercase text-right py-2 hidden md:table-cell">Статус</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { time: "15:30", item: "Регистрация участников. Фуршет и сбор гостей", status: "обязательно" },
+                      { time: "16:00", item: "Официальная часть. Торжественная регистрация брака", status: "ключевое" },
+                      { time: "17:00", item: "Фотодокументирование. Прогулка по территории", status: "рекомендовано" },
+                      { time: "18:00", item: "Банкетное слушание. Тосты, речи, прения сторон", status: "обязательно" },
+                      { time: "22:00", item: "Свободные прения. Танцевальный регламент", status: "бессрочно" },
+                    ].map(({ time, item, status }, i) => (
+                      <tr key={i} className="border-b border-ink/15 hover:bg-ink/[0.02] transition-colors">
+                        <td className="font-stamp text-lg text-ink py-3 pr-4">{time}</td>
+                        <td className="font-doc text-sm text-ink/80 py-3 leading-5">{item}</td>
+                        <td className="py-3 text-right hidden md:table-cell">
+                          <span className="font-doc text-[10px] tracking-widest uppercase text-ink/40 border border-ink/20 px-2 py-0.5">
+                            {status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                <p className="font-doc text-xs text-ink/40 mt-6 italic">
+                  * Администрация оставляет за собой право изменить порядок пунктов по согласованию сторон.
+                </p>
+              </div>
+            </Reveal>
+          </section>
+
+          {/* SECTION 4 — Галерея / Материалы дела */}
+          <section id="evidence" className="mt-6">
+            <Reveal delay={100}>
+              <div className="bg-paper border-2 border-ink/20 p-8 md:p-10 shadow-[4px_4px_0_rgba(0,0,0,0.08)]">
+                <h2 className="font-stamp text-2xl tracking-[0.2em] text-ink mb-2">
+                  МАТЕРИАЛЫ ДЕЛА
+                </h2>
+                <p className="font-doc text-xs text-ink/40 tracking-widest uppercase mb-2">Фотоприложения и вещественные доказательства</p>
+                <SolidLine />
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+                  {[
+                    { label: "Прил. №1", desc: "Место проведения" },
+                    { label: "Прил. №2", desc: "Флористика" },
+                    { label: "Прил. №3", desc: "Детали убранства" },
+                    { label: "Прил. №4", desc: "Стороны дела" },
+                  ].map(({ label, desc }, i) => (
+                    <div key={i} className="border-2 border-dashed border-ink/20 aspect-square flex flex-col items-center justify-center text-center p-3 hover:border-ink/40 transition-colors cursor-pointer group">
+                      <Icon name="FileImage" size={28} className="text-ink/20 group-hover:text-ink/40 transition-colors mb-2" />
+                      <p className="font-stamp text-xs text-ink/40 tracking-wider">{label}</p>
+                      <p className="font-doc text-[10px] text-ink/30 mt-1">{desc}</p>
+                      <p className="font-doc text-[9px] text-ink/20 mt-2 uppercase tracking-wider">скоро</p>
+                    </div>
+                  ))}
+                </div>
+
+                <DashedLine />
+                <p className="font-doc text-xs text-ink/40 italic">
+                  Фотоматериалы будут приобщены к делу после проведения заседания.
+                  Все приложения являются неотъемлемой частью настоящей повестки.
+                </p>
+              </div>
+            </Reveal>
+          </section>
+
+          {/* SECTION 5 — Контакты / Явка */}
+          <section id="contacts" className="mt-6">
+            <Reveal delay={100}>
+              <div className="bg-paper border-2 border-ink/20 p-8 md:p-10 shadow-[4px_4px_0_rgba(0,0,0,0.08)] relative">
+
+                <h2 className="font-stamp text-2xl tracking-[0.2em] text-ink mb-2">
+                  ЯВКА И СВЯЗЬ
+                </h2>
+                <SolidLine />
+
+                <p className="font-doc text-sm text-ink/70 leading-7 mt-4 mb-6">
+                  По всем вопросам, связанным с настоящим делом, просим обращаться
+                  к уполномоченным представителям сторон:
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  {[
+                    { role: "Со стороны истца", name: "Мария Иванова", title: "Организатор торжества", phone: "+7 (999) 123-45-67", email: "maria@wedding.ru" },
+                    { role: "Со стороны ответчика", name: "Дмитрий Петров", title: "Координатор мероприятия", phone: "+7 (999) 765-43-21", email: "dmitry@wedding.ru" },
+                  ].map(({ role, name, title, phone, email }, i) => (
+                    <div key={i} className="border border-ink/20 p-5">
+                      <p className="font-doc text-[10px] tracking-[0.3em] uppercase text-ink/40 mb-3">{role}</p>
+                      <p className="font-stamp text-xl text-ink mb-1">{name}</p>
+                      <p className="font-doc text-xs text-ink/50 mb-4 italic">{title}</p>
+                      <div className="space-y-2">
+                        <a href={`tel:${phone}`} className="flex items-center gap-2 text-ink/60 hover:text-ink transition-colors">
+                          <Icon name="Phone" size={12} />
+                          <span className="font-doc text-sm">{phone}</span>
+                        </a>
+                        <a href={`mailto:${email}`} className="flex items-center gap-2 text-ink/60 hover:text-ink transition-colors">
+                          <Icon name="Mail" size={12} />
+                          <span className="font-doc text-sm">{email}</span>
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <DashedLine />
+
+                {/* Подтверждение явки */}
+                <div className="mt-4">
+                  <p className="font-doc text-sm text-ink/70 mb-4">
+                    Прошу подтвердить получение настоящей повестки и своё участие в заседании:
+                  </p>
+                  {!confirmed ? (
+                    <button
+                      onClick={() => setConfirmed(true)}
+                      className="w-full border-2 border-ink/40 hover:bg-ink hover:text-paper transition-all duration-300 py-4 font-stamp text-xl tracking-[0.2em] uppercase group"
+                    >
+                      <span className="group-hover:opacity-100">✓ Явку подтверждаю</span>
+                    </button>
+                  ) : (
+                    <div className="w-full border-2 border-ink/30 py-4 text-center relative overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Stamp text="ЯВКА ПОДТВЕРЖДЕНА" color="blue" angle={-2} />
+                      </div>
+                      <span className="font-stamp text-xl tracking-[0.2em] uppercase opacity-0">placeholder</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Подпись и печать */}
+                <div className="flex items-end justify-between mt-10">
+                  <div>
+                    <p className="font-doc text-xs text-ink/40 mb-1">Исполнитель:</p>
+                    <p className="font-stamp text-sm text-ink/60">Александр & Екатерина</p>
+                    <p className="font-doc text-[10px] text-ink/30 mt-1">«14» сентября 2026 г.</p>
+                  </div>
+                  <div className="text-center opacity-40 select-none">
+                    <div
+                      className="w-20 h-20 rounded-full border-4 border-ink/60 flex items-center justify-center relative"
+                      style={{ transform: "rotate(-15deg)" }}
+                    >
+                      <div className="absolute inset-2 rounded-full border border-ink/40" />
+                      <p className="font-stamp text-[8px] tracking-wider text-ink/80 text-center leading-tight px-1">
+                        ЗАГС<br/>М.П.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </Reveal>
+          </section>
+
+          {/* Footer */}
+          <footer className="mt-6 pb-12 text-center">
+            <Reveal delay={200}>
+              <p className="font-doc text-xs text-ink/30 tracking-widest uppercase">
+                Документ имеет юридическую силу любви · Дело № 14-09/2026-БРК
+              </p>
+            </Reveal>
+          </footer>
+
         </div>
-        <p className="font-display text-2xl text-gold/80 mb-1">14.09.2026</p>
-        <p className="font-nav text-[10px] tracking-[0.4em] uppercase text-white/25 mt-3">
-          Александр &amp; Екатерина
-        </p>
-      </footer>
+      </div>
     </div>
   );
 }

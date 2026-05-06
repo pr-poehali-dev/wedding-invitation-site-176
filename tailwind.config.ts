@@ -20,14 +20,20 @@ export default {
 		},
 		extend: {
 			fontFamily: {
+				doc: ['"IBM Plex Mono"', 'monospace'],
+				stamp: ['"Special Elite"', 'monospace'],
 				display: ['"Cormorant Garamond"', 'serif'],
 				body: ['Montserrat', 'sans-serif'],
 				nav: ['Montserrat', 'sans-serif'],
 			},
 			colors: {
+				ink: '#1a1a18',
+				paper: '#f5edd8',
+				parchment: '#ece2c8',
+				stamp_red: '#c0392b',
+				stamp_blue: '#1a3a6b',
 				gold: '#C9A84C',
 				ivory: '#FAF6EE',
-				parchment: '#F3EAD8',
 				charcoal: '#2C2C2C',
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
