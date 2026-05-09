@@ -329,18 +329,40 @@ export default function Index() {
                 {/* Образы */}
                 <div>
                   <p className="font-doc text-xs text-ink/40 tracking-[0.3em] uppercase mb-4">§ 2. Примеры образов (вещественные доказательства)</p>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+                  <p className="font-doc text-[10px] text-ink/40 tracking-[0.2em] uppercase mb-3">Женские образы</p>
+                  <div className="grid grid-cols-3 gap-3 mb-6">
                     {[
-                      { label: "Образ №1", desc: "Женский · вечернее" },
-                      { label: "Образ №2", desc: "Женский · коктейльное" },
-                      { label: "Образ №3", desc: "Мужской · смокинг" },
-                      { label: "Образ №4", desc: "Мужской · костюм" },
-                    ].map(({ label, desc }, i) => (
-                      <div key={i} className="border-2 border-dashed border-ink/20 aspect-[3/4] flex flex-col items-center justify-center text-center p-3 hover:border-ink/40 transition-colors group">
-                        <Icon name="Shirt" size={28} className="text-ink/15 group-hover:text-ink/30 transition-colors mb-2" />
-                        <p className="font-stamp text-xs text-ink/40 tracking-wider">{label}</p>
-                        <p className="font-doc text-[10px] text-ink/30 mt-1 leading-tight">{desc}</p>
-                        <p className="font-doc text-[9px] text-ink/20 mt-3 uppercase tracking-wider">фото</p>
+                      { src: "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/bucket/63203637-8e5d-447b-91f2-4014f65326c4.jpg", label: "Образ №1", desc: "Пиджак + белая юбка" },
+                      { src: "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/bucket/168703be-877d-4574-9314-9090dac2acec.jpg", label: "Образ №2", desc: "Голубой оверсайз-блейзер" },
+                      { src: "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/bucket/015554b4-4b96-45b6-8219-12821af4bd65.jpg", label: "Образ №3", desc: "Синяя блуза + белые брюки" },
+                    ].map(({ src, label, desc }, i) => (
+                      <div key={i} className="border border-ink/15 overflow-hidden group">
+                        <div className="aspect-[3/4] overflow-hidden">
+                          <img src={src} alt={label} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div className="p-2 border-t border-ink/10">
+                          <p className="font-stamp text-xs text-ink/50 tracking-wider">{label}</p>
+                          <p className="font-doc text-[9px] text-ink/30 mt-0.5 leading-tight">{desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <p className="font-doc text-[10px] text-ink/40 tracking-[0.2em] uppercase mb-3">Мужские образы</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { src: "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/bucket/254c3ac0-a4d1-4e0b-935e-264f50a90c9a.jpg", label: "Образ №4", desc: "Тёмно-синяя рубашка + белые брюки" },
+                      { src: "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/bucket/9ce70ac2-3904-4057-b987-dc7e564f404e.jpg", label: "Образ №5", desc: "Голубая рубашка + чёрные брюки" },
+                    ].map(({ src, label, desc }, i) => (
+                      <div key={i} className="border border-ink/15 overflow-hidden group">
+                        <div className="aspect-[3/4] overflow-hidden">
+                          <img src={src} alt={label} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div className="p-2 border-t border-ink/10">
+                          <p className="font-stamp text-xs text-ink/50 tracking-wider">{label}</p>
+                          <p className="font-doc text-[9px] text-ink/30 mt-0.5 leading-tight">{desc}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
