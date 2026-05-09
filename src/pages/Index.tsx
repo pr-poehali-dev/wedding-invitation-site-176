@@ -213,8 +213,9 @@ export default function Index() {
 
                 <div className="mt-6 space-y-0">
                   <FieldRow label="Дата проведения:" value="20 августа 2026 года (четверг)" />
-                  <FieldRow label="Время начала:" value="15:00 (явка с 14:45)" />
-                  <FieldRow label="Адрес:" value="Усадьба Архангельское, Московская обл." />
+                  <FieldRow label="Время начала:" value="15:30 (явка с 15:00)" />
+                  <FieldRow label="Регистрация:" value="Отдел ЗАГС Приморского района" />
+                  <FieldRow label="Адрес банкета:" value="Приморское ш., 450" />
                   <FieldRow label="Председатель:" value="Боваев Вадим, гражданин" />
                   <FieldRow label="Ответчик:" value="Ванке Елизавета, гражданка" />
                   <FieldRow label="Характер дела:" value="Добровольное и по обоюдному согласию" />
