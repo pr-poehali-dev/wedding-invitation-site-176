@@ -305,23 +305,20 @@ export default function Index() {
                 {/* Цветовая палитра */}
                 <div className="mb-8">
                   <p className="font-doc text-xs text-ink/40 tracking-[0.3em] uppercase mb-4">§ 1. Утверждённая цветовая палитра</p>
-                  <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+                  <div className="grid grid-cols-5 gap-4">
                     {[
-                      { hex: "#F5F0E8", name: "Айвори" },
-                      { hex: "#E8DDD0", name: "Льняной" },
-                      { hex: "#D4C5B0", name: "Бежевый" },
-                      { hex: "#C4A882", name: "Пшеница" },
-                      { hex: "#9B8B78", name: "Тауп" },
-                      { hex: "#6B5B4E", name: "Мокко" },
-                      { hex: "#8B7355", name: "Хаки" },
-                      { hex: "#4A3728", name: "Шоколад" },
+                      { hex: "#111111", name: "Чёрный" },
+                      { hex: "#FFFFFF", name: "Белый" },
+                      { hex: "#B8A99A", name: "Тауп" },
+                      { hex: "#A8C4E0", name: "Голубой" },
+                      { hex: "#1B2A4A", name: "Тёмно-синий" },
                     ].map(({ hex, name }) => (
                       <div key={hex} className="flex flex-col items-center gap-2">
                         <div
-                          className="w-full aspect-square border border-ink/15 shadow-inner"
+                          className="w-full aspect-square rounded-full border border-ink/15 shadow-inner"
                           style={{ backgroundColor: hex }}
                         />
-                        <p className="font-doc text-[9px] text-ink/40 text-center leading-tight tracking-wide">{name}</p>
+                        <p className="font-doc text-[10px] text-ink/40 text-center leading-tight tracking-wide">{name}</p>
                       </div>
                     ))}
                   </div>
