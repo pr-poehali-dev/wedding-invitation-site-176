@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
-const BG_TEXTURE = "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/files/eecdf07c-d426-4865-b77a-8f2ab7281089.jpg";
+const BG_TEXTURE = "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/files/1e2a1ade-9b46-4c41-bd48-3bbcec701bdd.jpg";
 
 function useScrollReveal(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
@@ -93,11 +93,11 @@ export default function Index() {
         backgroundImage: `url(${BG_TEXTURE})`,
         backgroundSize: "cover",
         backgroundAttachment: "fixed",
-        backgroundColor: "#f2ead8",
+        backgroundColor: "#1B2A4A",
       }}
     >
       {/* Overlay */}
-      <div className="min-h-screen" style={{ background: "rgba(242, 234, 210, 0.88)" }}>
+      <div className="min-h-screen" style={{ background: "rgba(15, 25, 50, 0.55)" }}>
 
         {/* NAV — номер дела */}
         <header className="sticky top-0 z-30 border-b-2 border-ink/30 bg-paper/90 backdrop-blur-sm">
@@ -134,7 +134,7 @@ export default function Index() {
                       Российская Федерация
                     </p>
                     <p className="font-stamp text-[10px] tracking-[0.35em] uppercase text-ink/50">
-                      Отдел ЗАГС Центрального района
+                      Отдел ЗАГС Приморского района
                     </p>
                   </div>
                 </div>
