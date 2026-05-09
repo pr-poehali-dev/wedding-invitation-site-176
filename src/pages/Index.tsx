@@ -350,10 +350,11 @@ export default function Index() {
                   </div>
 
                   <p className="font-doc text-[10px] text-ink/40 tracking-[0.2em] uppercase mb-3">Мужские образы</p>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 gap-3">
                     {[
                       { src: "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/bucket/254c3ac0-a4d1-4e0b-935e-264f50a90c9a.jpg", label: "Образ №4", desc: "Тёмно-синяя рубашка + белые брюки" },
                       { src: "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/bucket/9ce70ac2-3904-4057-b987-dc7e564f404e.jpg", label: "Образ №5", desc: "Голубая рубашка + чёрные брюки" },
+                      { src: "https://cdn.poehali.dev/projects/c8aeb29e-8053-47c0-8be8-41c4a813dc78/bucket/09b139b8-cef4-42b4-ab22-d67041eedc67.jpg", label: "Образ №6", desc: "Тёмно-синий костюм + белая рубашка" },
                     ].map(({ src, label, desc }, i) => (
                       <div key={i} className="border border-ink/15 overflow-hidden group">
                         <div className="aspect-[3/4] overflow-hidden">
