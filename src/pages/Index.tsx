@@ -102,7 +102,7 @@ export default function Index() {
         {/* NAV — номер дела */}
         <header className="sticky top-0 z-30 border-b-2 border-ink/30 bg-paper/90 backdrop-blur-sm">
           <div className="max-w-3xl mx-auto px-6 py-2 flex items-center justify-between">
-            <span className="font-stamp text-xs text-ink/50 tracking-widest uppercase">Дело № 14-09/2026</span>
+            <span className="font-stamp text-xs text-ink/50 tracking-widest uppercase">Дело № 20-08/2026</span>
             <div className="flex gap-6">
               {[["notice","Повестка"],["hearing","Заседание"],["schedule","Регламент"],["evidence","Материалы"],["contacts","Явка"]].map(([id, label]) => (
                 <button key={id} onClick={() => scrollTo(id)}
@@ -155,7 +155,7 @@ export default function Index() {
                 <SolidLine />
 
                 <div className="mt-8 space-y-0">
-                  <FieldRow label="Исх. №" value="14-09/2026-БРК" />
+                  <FieldRow label="Исх. №" value="20-08/2026-БРК" />
                   <FieldRow label="Дата выдачи:" value="01 мая 2026 г." />
                   <FieldRow label="Кому:" value="Уважаемый(-ая) гость" />
                   <FieldRow label="Адрес вручения:" value="по месту нахождения" />
@@ -165,18 +165,18 @@ export default function Index() {
 
                 <p className="font-doc text-sm text-ink leading-7 mt-4">
                   Настоящим уведомляем Вас о том, что{" "}
-                  <strong className="underline decoration-dotted underline-offset-4">«14» сентября 2026 года</strong>{" "}
+                  <strong className="underline decoration-dotted underline-offset-4">«20» августа 2026 года</strong>{" "}
                   в Отделе записи актов гражданского состояния состоится открытое заседание по делу{" "}
-                  <strong>№ 14-09/2026-БРК</strong> по вопросу официального оформления союза граждан:
+                  <strong>№ 20-08/2026-БРК</strong> по вопросу официального оформления союза граждан:
                 </p>
 
                 <div className="mt-6 border-2 border-ink/30 p-6 bg-ink/[0.03] text-center">
                   <p className="font-stamp text-3xl md:text-4xl tracking-[0.1em] text-ink mb-2">
-                    Боваев Вадим Николаевич
+                    Боваев Вадим
                   </p>
                   <p className="font-doc text-ink/50 text-sm tracking-widest mb-2">и</p>
                   <p className="font-stamp text-3xl md:text-4xl tracking-[0.1em] text-ink">
-                    Ванке Елизавета Геннадьевна
+                    Ванке Елизавета
                   </p>
                 </div>
 
@@ -212,11 +212,11 @@ export default function Index() {
                 <SolidLine />
 
                 <div className="mt-6 space-y-0">
-                  <FieldRow label="Дата проведения:" value="14 сентября 2026 года (воскресенье)" />
-                  <FieldRow label="Время начала:" value="16:00 (явка с 15:30)" />
+                  <FieldRow label="Дата проведения:" value="20 августа 2026 года (четверг)" />
+                  <FieldRow label="Время начала:" value="15:00 (явка с 14:45)" />
                   <FieldRow label="Адрес:" value="Усадьба Архангельское, Московская обл." />
-                  <FieldRow label="Председатель:" value="Александр Смирнов, гражданин" />
-                  <FieldRow label="Ответчик:" value="Екатерина Новикова, гражданка" />
+                  <FieldRow label="Председатель:" value="Боваев Вадим, гражданин" />
+                  <FieldRow label="Ответчик:" value="Ванке Елизавета, гражданка" />
                   <FieldRow label="Характер дела:" value="Добровольное и по обоюдному согласию" />
                 </div>
 
@@ -257,11 +257,10 @@ export default function Index() {
                   </thead>
                   <tbody>
                     {[
-                      { time: "15:30", item: "Регистрация участников. Фуршет и сбор гостей", status: "обязательно" },
-                      { time: "16:00", item: "Официальная часть. Торжественная регистрация брака", status: "ключевое" },
-                      { time: "17:00", item: "Фотодокументирование. Прогулка по территории", status: "рекомендовано" },
+                      { time: "15:00", item: "Сбор гостей", status: "обязательно" },
+                      { time: "15:30", item: "Официальная часть. Торжественная регистрация брака", status: "ключевое" },
+                      { time: "16:00", item: "Фотодокументирование. Прогулка по территории", status: "рекомендовано" },
                       { time: "18:00", item: "Банкетное слушание. Тосты, речи, прения сторон", status: "обязательно" },
-                      { time: "22:00", item: "Свободные прения. Танцевальный регламент", status: "бессрочно" },
                     ].map(({ time, item, status }, i) => (
                       <tr key={i} className="border-b border-ink/15 hover:bg-ink/[0.02] transition-colors">
                         <td className="font-stamp text-lg text-ink py-3 pr-4">{time}</td>
@@ -283,36 +282,76 @@ export default function Index() {
             </Reveal>
           </section>
 
-          {/* SECTION 4 — Галерея / Материалы дела */}
+          {/* SECTION 4 — Дресс-код */}
           <section id="evidence" className="mt-6">
             <Reveal delay={100}>
               <div className="bg-paper border-2 border-ink/20 p-8 md:p-10 shadow-[4px_4px_0_rgba(0,0,0,0.08)]">
                 <h2 className="font-stamp text-2xl tracking-[0.2em] text-ink mb-2">
-                  МАТЕРИАЛЫ ДЕЛА
+                  ДРЕСС-КОД
                 </h2>
-                <p className="font-doc text-xs text-ink/40 tracking-widest uppercase mb-2">Фотоприложения и вещественные доказательства</p>
+                <p className="font-doc text-xs text-ink/40 tracking-widest uppercase mb-2">
+                  Приложение № 1 к повестке · Форма одежды участников
+                </p>
                 <SolidLine />
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
-                  {[
-                    { label: "Прил. №1", desc: "Место проведения" },
-                    { label: "Прил. №2", desc: "Флористика" },
-                    { label: "Прил. №3", desc: "Детали убранства" },
-                    { label: "Прил. №4", desc: "Стороны дела" },
-                  ].map(({ label, desc }, i) => (
-                    <div key={i} className="border-2 border-dashed border-ink/20 aspect-square flex flex-col items-center justify-center text-center p-3 hover:border-ink/40 transition-colors cursor-pointer group">
-                      <Icon name="FileImage" size={28} className="text-ink/20 group-hover:text-ink/40 transition-colors mb-2" />
-                      <p className="font-stamp text-xs text-ink/40 tracking-wider">{label}</p>
-                      <p className="font-doc text-[10px] text-ink/30 mt-1">{desc}</p>
-                      <p className="font-doc text-[9px] text-ink/20 mt-2 uppercase tracking-wider">скоро</p>
-                    </div>
-                  ))}
+                <p className="font-doc text-sm text-ink/70 leading-7 mt-5 mb-6">
+                  Настоящим предписывается явиться на заседание в соответствии
+                  с утверждённой цветовой палитрой. Несоблюдение формы одежды
+                  не является основанием для отказа в участии, однако принимается
+                  во внимание при фотодокументировании.
+                </p>
+
+                {/* Цветовая палитра */}
+                <div className="mb-8">
+                  <p className="font-doc text-xs text-ink/40 tracking-[0.3em] uppercase mb-4">§ 1. Утверждённая цветовая палитра</p>
+                  <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+                    {[
+                      { hex: "#F5F0E8", name: "Айвори" },
+                      { hex: "#E8DDD0", name: "Льняной" },
+                      { hex: "#D4C5B0", name: "Бежевый" },
+                      { hex: "#C4A882", name: "Пшеница" },
+                      { hex: "#9B8B78", name: "Тауп" },
+                      { hex: "#6B5B4E", name: "Мокко" },
+                      { hex: "#8B7355", name: "Хаки" },
+                      { hex: "#4A3728", name: "Шоколад" },
+                    ].map(({ hex, name }) => (
+                      <div key={hex} className="flex flex-col items-center gap-2">
+                        <div
+                          className="w-full aspect-square border border-ink/15 shadow-inner"
+                          style={{ backgroundColor: hex }}
+                        />
+                        <p className="font-doc text-[9px] text-ink/40 text-center leading-tight tracking-wide">{name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <DashedLine />
+
+                {/* Образы */}
+                <div>
+                  <p className="font-doc text-xs text-ink/40 tracking-[0.3em] uppercase mb-4">§ 2. Примеры образов (вещественные доказательства)</p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {[
+                      { label: "Образ №1", desc: "Женский · вечернее" },
+                      { label: "Образ №2", desc: "Женский · коктейльное" },
+                      { label: "Образ №3", desc: "Мужской · смокинг" },
+                      { label: "Образ №4", desc: "Мужской · костюм" },
+                    ].map(({ label, desc }, i) => (
+                      <div key={i} className="border-2 border-dashed border-ink/20 aspect-[3/4] flex flex-col items-center justify-center text-center p-3 hover:border-ink/40 transition-colors group">
+                        <Icon name="Shirt" size={28} className="text-ink/15 group-hover:text-ink/30 transition-colors mb-2" />
+                        <p className="font-stamp text-xs text-ink/40 tracking-wider">{label}</p>
+                        <p className="font-doc text-[10px] text-ink/30 mt-1 leading-tight">{desc}</p>
+                        <p className="font-doc text-[9px] text-ink/20 mt-3 uppercase tracking-wider">фото</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <DashedLine />
                 <p className="font-doc text-xs text-ink/40 italic">
-                  Фотоматериалы будут приобщены к делу после проведения заседания.
-                  Все приложения являются неотъемлемой частью настоящей повестки.
+                  * Белый цвет — исключительная прерогатива стороны ответчика.
+                  Явка в белом расценивается как нарушение регламента.
                 </p>
               </div>
             </Reveal>
@@ -335,8 +374,8 @@ export default function Index() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   {[
-                    { role: "Со стороны истца", name: "Боваев Вадим Николаевич", title: "Жених", phone: "+7 (999) 123-45-67", email: "vadim@wedding.ru" },
-                    { role: "Со стороны ответчика", name: "Ванке Елизавета Геннадьевна", title: "Невеста", phone: "+7 (999) 765-43-21", email: "elizaveta@wedding.ru" },
+                    { role: "Со стороны истца", name: "Боваев Вадим", title: "Жених", phone: "+7 (999) 123-45-67", email: "vadim@wedding.ru" },
+                    { role: "Со стороны ответчика", name: "Ванке Елизавета", title: "Невеста", phone: "+7 (999) 765-43-21", email: "elizaveta@wedding.ru" },
                   ].map(({ role, name, title, phone, email }, i) => (
                     <div key={i} className="border border-ink/20 p-5">
                       <p className="font-doc text-[10px] tracking-[0.3em] uppercase text-ink/40 mb-3">{role}</p>
@@ -385,7 +424,7 @@ export default function Index() {
                   <div>
                     <p className="font-doc text-xs text-ink/40 mb-1">Исполнитель:</p>
                     <p className="font-stamp text-sm text-ink/60">Боваев Вадим & Ванке Елизавета</p>
-                    <p className="font-doc text-[10px] text-ink/30 mt-1">«14» сентября 2026 г.</p>
+                    <p className="font-doc text-[10px] text-ink/30 mt-1">«20» августа 2026 г.</p>
                   </div>
                   <div className="text-center opacity-40 select-none">
                     <div
@@ -408,7 +447,7 @@ export default function Index() {
           <footer className="mt-6 pb-12 text-center">
             <Reveal delay={200}>
               <p className="font-doc text-xs text-ink/30 tracking-widest uppercase">
-                Документ имеет юридическую силу любви · Дело № 14-09/2026-БРК
+                Документ имеет юридическую силу любви · Дело № 20-08/2026-БРК
               </p>
             </Reveal>
           </footer>
